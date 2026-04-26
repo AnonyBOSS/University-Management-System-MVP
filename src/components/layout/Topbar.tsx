@@ -5,6 +5,7 @@ import { getInitials } from "@/lib/utils";
 import type { Profile } from "@/lib/types/database";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { GlobalSearch } from "@/components/layout/GlobalSearch";
 
 interface TopbarProps {
   user: Profile;
@@ -37,6 +38,17 @@ export function Topbar({ user }: TopbarProps) {
 
       {/* Right side */}
       <div className="flex items-center gap-2">
+        {/* Global Search */}
+        <GlobalSearch />
+        <button
+          onClick={() => document.dispatchEvent(new KeyboardEvent("keydown", { key: "k", ctrlKey: true }))}
+          className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-surface-200 dark:border-surface-700 text-surface-400 text-sm hover:bg-surface-50 dark:hover:bg-surface-800 transition-colors"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+          Search
+          <kbd className="ml-1 px-1.5 py-0.5 rounded bg-surface-100 dark:bg-surface-700 text-[10px] font-mono">⌘K</kbd>
+        </button>
+
         {/* Dark mode toggle */}
         <button
           onClick={toggleDark}
