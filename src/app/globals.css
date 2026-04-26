@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ============================================================
    University Management System — Design Tokens & Global Styles
    ============================================================ */
@@ -26,6 +28,11 @@
   --color-success-400: #34d399;
   --color-success-500: #10b981;
   --color-success-600: #059669;
+
+  /* Warning — Amber */
+  --color-warning-400: #fbbf24;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
 
   /* Danger — Rose */
   --color-danger-400: #fb7185;
@@ -66,6 +73,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Dark mode base */
+html.dark body {
+  background-color: var(--color-surface-900);
+  color: var(--color-surface-200);
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
@@ -85,6 +98,10 @@ body {
   background: var(--color-surface-400);
 }
 
+html.dark ::-webkit-scrollbar-thumb {
+  background: var(--color-surface-600);
+}
+
 /* ============================================================
    Animations
    ============================================================ */
@@ -98,9 +115,19 @@ body {
   to { opacity: 1; transform: translateX(0); }
 }
 
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
 @keyframes pulse-subtle {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.7; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 .animate-fade-in {
@@ -109,6 +136,10 @@ body {
 
 .animate-slide-in {
   animation: slideInRight 0.3s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.3s ease-out forwards;
 }
 
 .animate-pulse-subtle {
@@ -129,3 +160,5 @@ body {
 .stagger-children > *:nth-child(6) { animation-delay: 0.3s; }
 .stagger-children > *:nth-child(7) { animation-delay: 0.35s; }
 .stagger-children > *:nth-child(8) { animation-delay: 0.4s; }
+.stagger-children > *:nth-child(9) { animation-delay: 0.45s; }
+.stagger-children > *:nth-child(10) { animation-delay: 0.5s; }

@@ -4,8 +4,8 @@ import { createClient } from "@/lib/supabase/server";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { EnrollButton } from "@/components/courses/EnrollButton";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { notFound } from "next/navigation";
-import Link from "next/link";
 
 export default async function CourseDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -33,10 +33,10 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ i
 
   return (
     <div className="max-w-3xl space-y-6 animate-fade-in">
-      <Link href="/courses" className="inline-flex items-center gap-1 text-sm text-surface-500 hover:text-surface-700 transition-colors">
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-        Back to Courses
-      </Link>
+      <Breadcrumbs items={[
+        { label: "Courses", href: "/courses" },
+        { label: course.title },
+      ]} />
 
       <Card>
         <div className="flex items-start justify-between flex-wrap gap-4">

@@ -40,13 +40,13 @@ export function Modal({ isOpen, onClose, title, children, className }: ModalProp
     >
       <div
         className={cn(
-          "w-full max-w-lg rounded-xl bg-white p-6 shadow-2xl",
+          "w-full max-w-lg rounded-xl bg-white dark:bg-surface-800 p-6 shadow-2xl border dark:border-surface-700",
           "animate-fade-in",
           className
         )}
       >
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-surface-900">{title}</h2>
+          <h2 className="text-lg font-semibold text-surface-900 dark:text-white">{title}</h2>
           <button
             onClick={onClose}
             className="rounded-lg p-1 text-surface-400 hover:bg-surface-100 hover:text-surface-600 transition-colors"

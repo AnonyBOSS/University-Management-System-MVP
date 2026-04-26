@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import type { UserRole } from "@/lib/types/database";
 
@@ -104,6 +105,26 @@ const navItems: NavItem[] = [
     ),
     roles: ["admin"],
   },
+  {
+    href: "/admin/users",
+    label: "Manage Users",
+    icon: (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+      </svg>
+    ),
+    roles: ["admin"],
+  },
+  {
+    href: "/admin/classrooms",
+    label: "Manage Classrooms",
+    icon: (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+      </svg>
+    ),
+    roles: ["admin"],
+  },
 ];
 
 interface SidebarProps {
@@ -112,17 +133,30 @@ interface SidebarProps {
 
 export function Sidebar({ userRole }: SidebarProps) {
   const pathname = usePathname();
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+  // Close on route change
+  useEffect(() => {
+    setIsMobileOpen(false);
+  }, [pathname]);
+
+  // Close on escape
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsMobileOpen(false);
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const filteredItems = navItems.filter((item) => item.roles.includes(userRole));
-
-  // Group admin items separately
   const mainItems = filteredItems.filter((item) => !item.href.startsWith("/admin"));
   const adminItems = filteredItems.filter((item) => item.href.startsWith("/admin"));
 
-  return (
-    <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r border-surface-200 bg-white flex flex-col">
+  const sidebarContent = (
+    <>
       {/* Logo */}
-      <div className="flex items-center gap-3 px-6 py-5 border-b border-surface-100">
+      <div className="flex items-center gap-3 px-6 py-5 border-b border-surface-100 dark:border-surface-700">
         <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-primary-600 text-white shadow-sm">
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
@@ -130,7 +164,7 @@ export function Sidebar({ userRole }: SidebarProps) {
           </svg>
         </div>
         <div>
-          <h1 className="text-base font-bold text-surface-900">UniManage</h1>
+          <h1 className="text-base font-bold text-surface-900 dark:text-white">UniManage</h1>
           <p className="text-xs text-surface-400 capitalize">{userRole} Portal</p>
         </div>
       </div>
@@ -149,11 +183,11 @@ export function Sidebar({ userRole }: SidebarProps) {
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
                 isActive
-                  ? "bg-primary-50 text-primary-700 shadow-sm"
-                  : "text-surface-600 hover:bg-surface-50 hover:text-surface-800"
+                  ? "bg-primary-50 text-primary-700 shadow-sm dark:bg-primary-900/30 dark:text-primary-300"
+                  : "text-surface-600 hover:bg-surface-50 hover:text-surface-800 dark:text-surface-400 dark:hover:bg-surface-800 dark:hover:text-surface-200"
               )}
             >
-              <span className={cn(isActive ? "text-primary-600" : "text-surface-400")}>
+              <span className={cn(isActive ? "text-primary-600 dark:text-primary-400" : "text-surface-400")}>
                 {item.icon}
               </span>
               {item.label}
@@ -178,11 +212,11 @@ export function Sidebar({ userRole }: SidebarProps) {
                   className={cn(
                     "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
                     isActive
-                      ? "bg-primary-50 text-primary-700 shadow-sm"
-                      : "text-surface-600 hover:bg-surface-50 hover:text-surface-800"
+                      ? "bg-primary-50 text-primary-700 shadow-sm dark:bg-primary-900/30 dark:text-primary-300"
+                      : "text-surface-600 hover:bg-surface-50 hover:text-surface-800 dark:text-surface-400 dark:hover:bg-surface-800 dark:hover:text-surface-200"
                   )}
                 >
-                  <span className={cn(isActive ? "text-primary-600" : "text-surface-400")}>
+                  <span className={cn(isActive ? "text-primary-600 dark:text-primary-400" : "text-surface-400")}>
                     {item.icon}
                   </span>
                   {item.label}
@@ -192,6 +226,54 @@ export function Sidebar({ userRole }: SidebarProps) {
           </>
         )}
       </nav>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Mobile hamburger button */}
+      <button
+        onClick={() => setIsMobileOpen(true)}
+        className="fixed top-4 left-4 z-50 lg:hidden p-2 rounded-lg bg-white dark:bg-surface-800 border border-surface-200 dark:border-surface-700 shadow-sm"
+        aria-label="Open navigation menu"
+      >
+        <svg className="w-5 h-5 text-surface-600 dark:text-surface-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
+      {/* Mobile overlay */}
+      {isMobileOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
+          onClick={() => setIsMobileOpen(false)}
+        />
+      )}
+
+      {/* Desktop sidebar */}
+      <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r border-surface-200 dark:border-surface-700 bg-white dark:bg-surface-900 flex-col hidden lg:flex">
+        {sidebarContent}
+      </aside>
+
+      {/* Mobile sidebar (slide-out drawer) */}
+      <aside
+        className={cn(
+          "fixed left-0 top-0 z-50 h-screen w-64 border-r border-surface-200 dark:border-surface-700 bg-white dark:bg-surface-900 flex flex-col lg:hidden transition-transform duration-300 ease-in-out",
+          isMobileOpen ? "translate-x-0" : "-translate-x-full"
+        )}
+      >
+        {/* Close button */}
+        <button
+          onClick={() => setIsMobileOpen(false)}
+          className="absolute top-4 right-4 p-1.5 rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors"
+          aria-label="Close navigation menu"
+        >
+          <svg className="w-5 h-5 text-surface-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        {sidebarContent}
+      </aside>
+    </>
   );
 }

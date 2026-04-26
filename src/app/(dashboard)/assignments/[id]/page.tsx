@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/Badge";
 import { formatDate, formatDateTime } from "@/lib/utils";
 import type { Submission } from "@/lib/types/database";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { SubmissionForm } from "@/components/assignments/SubmissionForm";
 import { GradeForm } from "@/components/assignments/GradeForm";
 
@@ -22,10 +22,10 @@ export default async function AssignmentDetailPage({ params }: { params: Promise
 
   return (
     <div className="max-w-3xl space-y-6 animate-fade-in">
-      <Link href="/assignments" className="inline-flex items-center gap-1 text-sm text-surface-500 hover:text-surface-700 transition-colors">
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-        Back to Assignments
-      </Link>
+      <Breadcrumbs items={[
+        { label: "Assignments", href: "/assignments" },
+        { label: assignment.title },
+      ]} />
 
       {/* Assignment details */}
       <Card>
