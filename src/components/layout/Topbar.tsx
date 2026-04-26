@@ -13,15 +13,18 @@ interface TopbarProps {
 
 export function Topbar({ user }: TopbarProps) {
   const [showMenu, setShowMenu] = useState(false);
-  const [isDark, setIsDark] = useState(false);
 
-  useEffect(() => {
+  // Initialize dark mode from localStorage/system preference without triggering a cascading render
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window === "undefined") return false;
     const stored = localStorage.getItem("theme");
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const dark = stored === "dark" || (!stored && prefersDark);
-    setIsDark(dark);
-    document.documentElement.classList.toggle("dark", dark);
-  }, []);
+    return stored === "dark" || (!stored && prefersDark);
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDark);
+  }, [isDark]);
 
   const toggleDark = () => {
     const next = !isDark;

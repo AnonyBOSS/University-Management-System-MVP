@@ -1,3 +1,4 @@
+// Deno Edge Function — typed via supabase/functions/tsconfig.json + deno.d.ts (excluded from the Next.js TS project)
 // Supabase Edge Function for email notifications
 // Deploy with: supabase functions deploy notify-email
 //
@@ -7,7 +8,6 @@
 // - messages (new message received)
 //
 // Set up webhooks in the Supabase Dashboard → Database → Webhooks → Create Webhook
-// Trigger this function's URL for each table's INSERT event.
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
@@ -19,7 +19,7 @@ serve(async (req: Request) => {
 
     if (type !== "INSERT") return new Response("Ignored", { status: 200 });
 
-    let to = "";
+    const to = "";
     let subject = "";
     let html = "";
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { formatDateTime, getInitials } from "@/lib/utils";
+import { formatDateTime } from "@/lib/utils";
 import { Card } from "@/components/ui/Card";
 import { ReplyForm } from "@/components/messages/ReplyForm";
 import type { Message, Profile } from "@/lib/types/database";
@@ -14,7 +14,7 @@ interface RealtimeThreadProps {
   partner: Pick<Profile, "full_name" | "email" | "role">;
 }
 
-export function RealtimeThread({ initialMessages, currentUserId, partnerId, partner }: RealtimeThreadProps) {
+export function RealtimeThread({ initialMessages, currentUserId, partnerId }: RealtimeThreadProps) {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const bottomRef = useRef<HTMLDivElement>(null);
   const supabase = createClient();
