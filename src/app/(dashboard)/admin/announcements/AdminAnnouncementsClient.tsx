@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { createAnnouncement, deleteAnnouncement } from "@/actions/announcements";
 import { formatDateTime } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/Toast";
 import type { Announcement } from "@/lib/types/database";
 
 interface AdminAnnouncementsClientProps {
@@ -16,6 +17,7 @@ interface AdminAnnouncementsClientProps {
 
 export function AdminAnnouncementsClient({ announcements }: AdminAnnouncementsClientProps) {
   const router = useRouter();
+  const { addToast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -28,6 +30,7 @@ export function AdminAnnouncementsClient({ announcements }: AdminAnnouncementsCl
     if (result?.error) setError(result.error);
     else {
       e.currentTarget.reset();
+      addToast("Announcement published.", "success");
       router.refresh();
     }
     setIsLoading(false);
@@ -36,6 +39,7 @@ export function AdminAnnouncementsClient({ announcements }: AdminAnnouncementsCl
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this announcement?")) return;
     await deleteAnnouncement(id);
+    addToast("Announcement deleted.", "success");
     router.refresh();
   };
 

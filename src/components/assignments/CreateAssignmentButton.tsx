@@ -8,6 +8,7 @@ import { Select } from "@/components/ui/Select";
 import { Modal } from "@/components/ui/Modal";
 import { createAssignment } from "@/actions/assignments";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/Toast";
 
 interface CreateAssignmentButtonProps {
   courses: { id: string; title: string; code: string }[];
@@ -20,6 +21,7 @@ const MODULE_MIN_DUE_DATE = new Date(Date.now() - new Date().getTimezoneOffset()
 
 export function CreateAssignmentButton({ courses }: CreateAssignmentButtonProps) {
   const router = useRouter();
+  const { addToast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -35,6 +37,7 @@ export function CreateAssignmentButton({ courses }: CreateAssignmentButtonProps)
       setError(result.error);
     } else {
       setIsOpen(false);
+      addToast("Assignment created successfully.", "success");
       router.refresh();
     }
     setIsLoading(false);
