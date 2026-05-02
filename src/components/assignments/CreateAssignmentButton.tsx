@@ -13,11 +13,17 @@ interface CreateAssignmentButtonProps {
   courses: { id: string; title: string; code: string }[];
 }
 
+// Compute a safe minimum due date (now) once at module load time
+const MODULE_MIN_DUE_DATE = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+  .toISOString()
+  .slice(0, 16);
+
 export function CreateAssignmentButton({ courses }: CreateAssignmentButtonProps) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const minDueDate = MODULE_MIN_DUE_DATE;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -58,7 +64,7 @@ export function CreateAssignmentButton({ courses }: CreateAssignmentButtonProps)
           <Input id="title" name="title" label="Assignment Title" placeholder="e.g., Homework 1" required />
           <Textarea id="description" name="description" label="Description" placeholder="Describe the assignment..." rows={3} />
           <div className="grid grid-cols-2 gap-4">
-            <Input id="due_date" name="due_date" type="datetime-local" label="Due Date" required />
+            <Input id="due_date" name="due_date" type="datetime-local" label="Due Date" min={minDueDate} required />
             <Input id="max_score" name="max_score" type="number" label="Max Score" defaultValue="100" />
           </div>
           <div className="flex justify-end gap-3 pt-2">

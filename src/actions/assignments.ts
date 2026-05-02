@@ -77,12 +77,22 @@ export async function createAssignment(formData: FormData) {
   }
 
   const supabase = await createClient();
+  const dueDateValue = formData.get("due_date") as string;
+  const dueDate = new Date(dueDateValue);
+
+  if (!dueDateValue || Number.isNaN(dueDate.getTime())) {
+    return { error: "Please provide a valid due date." };
+  }
+
+  if (dueDate <= new Date()) {
+    return { error: "Deadline must be a future date and time." };
+  }
 
   const { error } = await supabase.from("assignments").insert({
     course_id: formData.get("course_id") as string,
     title: formData.get("title") as string,
     description: formData.get("description") as string,
-    due_date: formData.get("due_date") as string,
+    due_date: dueDate.toISOString(),
     max_score: parseInt(formData.get("max_score") as string) || 100,
   });
 

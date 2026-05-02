@@ -58,13 +58,42 @@ export async function createBooking(formData: FormData) {
   if (!user) return { error: "Not authenticated." };
 
   const supabase = await createClient();
+  const classroomId = formData.get("classroom_id") as string;
+  const bookingDate = formData.get("booking_date") as string;
+  const startTime = formData.get("start_time") as string;
+  const endTime = formData.get("end_time") as string;
+
+  if (!classroomId || !bookingDate || !startTime || !endTime) {
+    return { error: "Please provide a room, date, start time, and end time." };
+  }
+
+  if (endTime <= startTime) {
+    return { error: "End time must be after start time." };
+  }
+
+  const { data: conflictingBookings, error: lookupError } = await supabase
+    .from("bookings")
+    .select("id")
+    .eq("classroom_id", classroomId)
+    .eq("booking_date", bookingDate)
+    .lt("start_time", endTime)
+    .gt("end_time", startTime)
+    .limit(1);
+
+  if (lookupError) {
+    return { error: lookupError.message };
+  }
+
+  if (conflictingBookings && conflictingBookings.length > 0) {
+    return { error: "This time slot conflicts with an existing booking." };
+  }
 
   const { error } = await supabase.from("bookings").insert({
-    classroom_id: formData.get("classroom_id") as string,
+    classroom_id: classroomId,
     booked_by: user.id,
-    booking_date: formData.get("booking_date") as string,
-    start_time: formData.get("start_time") as string,
-    end_time: formData.get("end_time") as string,
+    booking_date: bookingDate,
+    start_time: startTime,
+    end_time: endTime,
     purpose: (formData.get("purpose") as string) || null,
   });
 
