@@ -165,21 +165,113 @@ export async function createCourse(formData: FormData) {
     return { error: "Only admins can create courses." };
   }
 
+  const title = (formData.get("title") as string)?.trim();
+  const code = (formData.get("code") as string)?.trim();
+  const type = (formData.get("type") as string)?.trim();
+  const description = (formData.get("description") as string)?.trim();
+  const professorId = (formData.get("professor_id") as string)?.trim();
+  const schedule = (formData.get("schedule") as string)?.trim();
+  const capacityValue = (formData.get("max_capacity") as string)?.trim();
+  const maxCapacity = capacityValue ? Number.parseInt(capacityValue, 10) : 30;
+
+  if (!title || !code || !type) {
+    return { error: "Title, code, and type are required." };
+  }
+
+  if (!Number.isInteger(maxCapacity) || maxCapacity <= 0) {
+    return { error: "Course capacity must be a positive number." };
+  }
+
+  if (type !== "core" && type !== "elective") {
+    return { error: "Please select a valid course type." };
+  }
+
   const supabase = await createClient();
 
   const { error } = await supabase.from("courses").insert({
-    title: formData.get("title") as string,
-    code: formData.get("code") as string,
-    description: formData.get("description") as string,
-    type: formData.get("type") as string,
-    professor_id: (formData.get("professor_id") as string) || null,
-    max_capacity: parseInt(formData.get("max_capacity") as string) || 30,
-    schedule: (formData.get("schedule") as string) || null,
+    title,
+    code,
+    description: description || null,
+    type,
+    professor_id: professorId || null,
+    max_capacity: maxCapacity,
+    schedule: schedule || null,
   });
 
   if (error) return { error: error.message };
 
   revalidatePath("/courses");
   revalidatePath("/admin/courses");
+  return { error: null };
+}
+
+/**
+ * Admin: Update an existing course.
+ */
+export async function updateCourse(courseId: string, formData: FormData) {
+  const user = await getCurrentUser();
+  if (!user || user.role !== "admin") {
+    return { error: "Only admins can update courses." };
+  }
+
+  const title = (formData.get("title") as string)?.trim();
+  const code = (formData.get("code") as string)?.trim();
+  const type = (formData.get("type") as string)?.trim();
+  const description = (formData.get("description") as string)?.trim();
+  const professorId = (formData.get("professor_id") as string)?.trim();
+  const schedule = (formData.get("schedule") as string)?.trim();
+  const capacityValue = (formData.get("max_capacity") as string)?.trim();
+  const maxCapacity = capacityValue ? Number.parseInt(capacityValue, 10) : 30;
+
+  if (!title || !code || !type) {
+    return { error: "Title, code, and type are required." };
+  }
+
+  if (!Number.isInteger(maxCapacity) || maxCapacity <= 0) {
+    return { error: "Course capacity must be a positive number." };
+  }
+
+  if (type !== "core" && type !== "elective") {
+    return { error: "Please select a valid course type." };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("courses")
+    .update({
+      title,
+      code,
+      description: description || null,
+      type,
+      professor_id: professorId || null,
+      max_capacity: maxCapacity,
+      schedule: schedule || null,
+    })
+    .eq("id", courseId);
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/courses");
+  revalidatePath("/admin/courses");
+  return { error: null };
+}
+
+/**
+ * Admin: Delete a course.
+ */
+export async function deleteCourse(courseId: string) {
+  const user = await getCurrentUser();
+  if (!user || user.role !== "admin") {
+    return { error: "Only admins can delete courses." };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("courses").delete().eq("id", courseId);
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/courses");
+  revalidatePath("/admin/courses");
+  revalidatePath("/dashboard");
   return { error: null };
 }
