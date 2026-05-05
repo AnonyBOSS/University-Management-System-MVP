@@ -367,6 +367,13 @@ CREATE POLICY "Admins can update classrooms"
     EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
   );
 
+CREATE POLICY "Admins can delete classrooms"
+  ON classrooms FOR DELETE
+  TO authenticated
+  USING (
+    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
+  );
+
 -- BOOKINGS --
 CREATE POLICY "Users can view all bookings"
   ON bookings FOR SELECT

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { updateProfile } from "@/actions/profile";
@@ -62,6 +63,20 @@ export function SettingsClient({ user }: { user: Profile }) {
           </div>
 
           <Input id="full_name" name="full_name" label="Full Name" defaultValue={user.full_name} required />
+
+          {user.role === "admin" && (
+            <Select
+              id="role"
+              name="role"
+              label="Role"
+              defaultValue={user.role}
+              options={[
+                { value: "student", label: "Student" },
+                { value: "professor", label: "Professor" },
+                { value: "admin", label: "Admin" },
+              ]}
+            />
+          )}
 
           <div>
             <label className="block text-sm font-medium text-surface-700 dark:text-surface-300 mb-1.5">Email</label>

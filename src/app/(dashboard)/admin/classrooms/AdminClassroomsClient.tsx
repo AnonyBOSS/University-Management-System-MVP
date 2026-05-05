@@ -33,8 +33,10 @@ export function AdminClassroomsClient({ classrooms }: AdminClassroomsClientProps
 
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this classroom? All bookings will be removed.")) return;
-    await deleteClassroom(id);
-    router.refresh();
+    setError(null);
+    const result = await deleteClassroom(id);
+    if (result?.error) setError(result.error);
+    else router.refresh();
   };
 
   return (
@@ -53,7 +55,7 @@ export function AdminClassroomsClient({ classrooms }: AdminClassroomsClientProps
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <Input id="name" name="name" label="Room Name" placeholder="Room 101" required />
             <Input id="building" name="building" label="Building" placeholder="Science Building" required />
-            <Input id="capacity" name="capacity" type="number" label="Capacity" defaultValue="30" required />
+            <Input id="capacity" name="capacity" type="number" min={1} label="Capacity" defaultValue="30" required />
           </div>
           <Button type="submit" isLoading={isLoading}>Add Classroom</Button>
         </form>

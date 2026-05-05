@@ -15,5 +15,9 @@ export default async function AdminClassroomsPage() {
 
   const { data: classrooms } = await getClassrooms();
 
-  return <AdminClassroomsClient classrooms={classrooms} />;
+  return (
+    <div className="mx-auto max-w-6xl">
+      <AdminClassroomsClient classrooms={classrooms} />
+    </div>
+  );
 }

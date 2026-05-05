@@ -15,11 +15,17 @@ interface AdminUsersClientProps {
 export function AdminUsersClient({ users }: AdminUsersClientProps) {
   const router = useRouter();
   const [loadingId, setLoadingId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleRoleChange = async (userId: string, newRole: string) => {
     setLoadingId(userId);
-    await updateUserRole(userId, newRole);
-    router.refresh();
+    setError(null);
+    const result = await updateUserRole(userId, newRole);
+    if (result?.error) {
+      setError(result.error);
+    } else {
+      router.refresh();
+    }
     setLoadingId(null);
   };
 
@@ -38,6 +44,12 @@ export function AdminUsersClient({ users }: AdminUsersClientProps) {
         <h1 className="text-2xl font-bold text-surface-900 dark:text-white">Manage Users</h1>
         <p className="text-surface-500 mt-1">View and manage user roles. {users.length} total users.</p>
       </div>
+
+      {error && (
+        <div className="rounded-lg bg-danger-500/10 border border-danger-500/20 px-4 py-3 text-sm text-danger-600">
+          {error}
+        </div>
+      )}
 
       <Card className="overflow-hidden p-0">
         <div className="overflow-x-auto">
