@@ -18,7 +18,7 @@ export function ComposeButton({ userRole }: ComposeButtonProps) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [recipients, setRecipients] = useState<{ id: string; full_name: string }[]>([]);
+  const [recipients, setRecipients] = useState<{ id: string; full_name: string; role: string }[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -57,9 +57,9 @@ export function ComposeButton({ userRole }: ComposeButtonProps) {
           <Select
             id="receiver_id"
             name="receiver_id"
-            label={`Send to (${userRole === "student" ? "Professor" : "Student"})`}
+            label="Send to"
             placeholder="Select recipient"
-            options={recipients.map((r) => ({ value: r.id, label: r.full_name }))}
+            options={recipients.map((r) => ({ value: r.id, label: `${r.full_name} (${r.role})` }))}
             required
           />
           <Input id="subject" name="subject" label="Subject" placeholder="Message subject" required />

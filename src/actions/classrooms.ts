@@ -67,6 +67,18 @@ export async function createBooking(formData: FormData) {
     return { error: "Please provide a room, date, start time, and end time." };
   }
 
+  const bookingDay = new Date(`${bookingDate}T00:00:00`);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (Number.isNaN(bookingDay.getTime())) {
+    return { error: "Please choose a valid booking date." };
+  }
+
+  if (bookingDay <= today) {
+    return { error: "Booking date must be in the future." };
+  }
+
   if (endTime <= startTime) {
     return { error: "End time must be after start time." };
   }

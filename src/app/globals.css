@@ -79,6 +79,21 @@ html.dark body {
   color: var(--color-surface-200);
 }
 
+html.dark .text-surface-900,
+html.dark .text-surface-800,
+html.dark .text-surface-700 {
+  color: var(--color-surface-100);
+}
+
+html.dark .text-surface-600,
+html.dark .text-surface-500 {
+  color: var(--color-surface-300);
+}
+
+html.dark .text-surface-400 {
+  color: var(--color-surface-400);
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

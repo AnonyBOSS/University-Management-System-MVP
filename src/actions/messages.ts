@@ -109,7 +109,7 @@ export async function sendMessage(formData: FormData) {
 }
 
 /**
- * Get potential message recipients (professors for students, students for professors).
+ * Get potential message recipients.
  */
 export async function getRecipients() {
   const user = await getCurrentUser();
@@ -117,13 +117,10 @@ export async function getRecipients() {
 
   const supabase = await createClient();
 
-  // Students can message professors, professors can message students
-  const targetRole = user.role === "student" ? "professor" : "student";
-
   const { data, error } = await supabase
     .from("profiles")
     .select("id, full_name, email, role")
-    .eq("role", targetRole)
+    .neq("id", user.id)
     .order("full_name");
 
   if (error) return { data: [], error: error.message };

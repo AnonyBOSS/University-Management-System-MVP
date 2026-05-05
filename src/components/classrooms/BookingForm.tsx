@@ -16,6 +16,10 @@ export function BookingForm({ classroomId, selectedDate }: BookingFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const minDate = tomorrow.toISOString().split("T")[0];
+  const initialDate = selectedDate > minDate ? selectedDate : minDate;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,7 +49,7 @@ export function BookingForm({ classroomId, selectedDate }: BookingFormProps) {
         <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/20 px-4 py-3 text-sm text-emerald-600">Booking confirmed!</div>
       )}
 
-      <Input id="booking_date" name="booking_date" type="date" label="Date" defaultValue={selectedDate} required />
+      <Input id="booking_date" name="booking_date" type="date" label="Date" defaultValue={initialDate} min={minDate} required />
 
       <div className="grid grid-cols-2 gap-4">
         <Input id="start_time" name="start_time" type="time" label="Start Time" required />

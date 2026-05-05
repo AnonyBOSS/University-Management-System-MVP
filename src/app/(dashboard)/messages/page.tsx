@@ -25,7 +25,7 @@ export default async function MessagesPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-surface-900">Messages</h1>
-          <p className="text-surface-500 mt-1">Your conversations with {user.role === "student" ? "professors" : "students"}.</p>
+          <p className="text-surface-500 mt-1">Your conversations with other users.</p>
         </div>
         <ComposeButton userRole={user.role} />
       </div>
@@ -35,7 +35,7 @@ export default async function MessagesPage() {
           {conversations.map((conv) => (
             <Link key={conv.partnerId} href={`/messages/${conv.partnerId}`}>
               <Card hover className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center font-semibold text-sm flex-shrink-0">
+                <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center font-semibold text-sm shrink-0">
                   {getInitials(conv.partnerName)}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -48,7 +48,7 @@ export default async function MessagesPage() {
                   </div>
                   <p className="text-sm text-surface-500 truncate">{conv.lastMessage.subject}: {conv.lastMessage.body}</p>
                 </div>
-                <span className="text-xs text-surface-400 flex-shrink-0">
+                <span className="text-xs text-surface-400 shrink-0">
                   {formatDateTime(conv.lastMessage.created_at)}
                 </span>
               </Card>
