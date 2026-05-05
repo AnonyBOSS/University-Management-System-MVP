@@ -196,6 +196,16 @@ CREATE POLICY "Users can update own profile"
   TO authenticated
   USING (auth.uid() = id);
 
+CREATE POLICY "Admins can update profiles"
+  ON profiles FOR UPDATE
+  TO authenticated
+  USING (
+    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
+  )
+  WITH CHECK (
+    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
+  );
+
 -- COURSES --
 CREATE POLICY "Anyone can view courses"
   ON courses FOR SELECT
