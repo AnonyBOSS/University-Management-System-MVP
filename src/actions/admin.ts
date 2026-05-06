@@ -86,8 +86,16 @@ export async function createClassroom(formData: FormData) {
 export async function deleteClassroom(classroomId: string) {
   const user = await getCurrentUser();
   if (!user || user.role !== "admin") return { error: "Unauthorized" };
-
   const supabase = await createClient();
+
+  // Remove any bookings tied to this classroom first to avoid FK constraint errors.
+  const { error: bookingsError } = await supabase
+    .from("bookings")
+    .delete()
+    .eq("classroom_id", classroomId);
+
+  if (bookingsError) return { error: bookingsError.message };
+
   const { error } = await supabase
     .from("classrooms")
     .delete()
