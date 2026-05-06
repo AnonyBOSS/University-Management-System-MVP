@@ -4,7 +4,8 @@ import { useState } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-import { createClassroom, deleteClassroom } from "@/actions/admin";
+import { Modal } from "@/components/ui/Modal";
+import { createClassroom, updateClassroom, deleteClassroom } from "@/actions/admin";
 import { useRouter } from "next/navigation";
 import type { Classroom } from "@/lib/types/database";
 
@@ -14,21 +15,38 @@ interface AdminClassroomsClientProps {
 
 export function AdminClassroomsClient({ classrooms }: AdminClassroomsClientProps) {
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [editingClassroom, setEditingClassroom] = useState<Classroom | null>(null);
 
-  const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
     const formData = new FormData(e.currentTarget);
-    const result = await createClassroom(formData);
+    const result = editingClassroom 
+      ? await updateClassroom(editingClassroom.id, formData)
+      : await createClassroom(formData);
     if (result?.error) setError(result.error);
     else {
-      e.currentTarget.reset();
+      setIsModalOpen(false);
+      setEditingClassroom(null);
       router.refresh();
     }
     setIsLoading(false);
+  };
+
+  const openCreateModal = () => {
+    setEditingClassroom(null);
+    setError(null);
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (classroom: Classroom) => {
+    setEditingClassroom(classroom);
+    setError(null);
+    setIsModalOpen(true);
   };
 
   const handleDelete = async (id: string) => {
@@ -41,25 +59,20 @@ export function AdminClassroomsClient({ classrooms }: AdminClassroomsClientProps
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-surface-900 dark:text-white">Manage Classrooms</h1>
-        <p className="text-surface-500 mt-1">Add and manage university classrooms.</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-surface-900 dark:text-white">Manage Classrooms</h1>
+          <p className="text-surface-500 mt-1">Add and manage university classrooms.</p>
+        </div>
+        <Button onClick={openCreateModal}>
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+          Add Classroom
+        </Button>
       </div>
 
-      <Card>
-        <CardHeader><CardTitle>Add New Classroom</CardTitle></CardHeader>
-        <form onSubmit={handleCreate} className="space-y-4">
-          {error && (
-            <div className="rounded-lg bg-danger-500/10 border border-danger-500/20 px-4 py-3 text-sm text-danger-600">{error}</div>
-          )}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Input id="name" name="name" label="Room Name" placeholder="Room 101" required />
-            <Input id="building" name="building" label="Building" placeholder="Science Building" required />
-            <Input id="capacity" name="capacity" type="number" min={1} label="Capacity" defaultValue="30" required />
-          </div>
-          <Button type="submit" isLoading={isLoading}>Add Classroom</Button>
-        </form>
-      </Card>
+      {error && (
+        <div className="rounded-lg bg-danger-500/10 border border-danger-500/20 px-4 py-3 text-sm text-danger-600">{error}</div>
+      )}
 
       <Card className="overflow-hidden p-0">
         <div className="overflow-x-auto">
@@ -79,14 +92,20 @@ export function AdminClassroomsClient({ classrooms }: AdminClassroomsClientProps
                   <td className="px-6 py-4 text-surface-600 dark:text-surface-400">{room.building}</td>
                   <td className="px-6 py-4 text-surface-600 dark:text-surface-400">{room.capacity}</td>
                   <td className="px-6 py-4">
-                    <button
-                      onClick={() => handleDelete(room.id)}
-                      className="p-2 text-surface-400 hover:text-danger-500 hover:bg-danger-50 dark:hover:bg-danger-500/10 rounded-lg transition-colors"
-                    >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => openEditModal(room)}
+                        className="rounded-lg border border-surface-300 dark:border-surface-600 px-3 py-1.5 text-xs font-medium text-surface-700 dark:text-surface-300 hover:bg-surface-50 dark:hover:bg-surface-700 transition-colors"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(room.id)}
+                        className="rounded-lg border border-danger-200 dark:border-danger-500/30 px-3 py-1.5 text-xs font-medium text-danger-600 dark:text-danger-400 hover:bg-danger-50 dark:hover:bg-danger-500/10 transition-colors"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -97,6 +116,63 @@ export function AdminClassroomsClient({ classrooms }: AdminClassroomsClientProps
           </table>
         </div>
       </Card>
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setEditingClassroom(null);
+        }}
+        title={editingClassroom ? "Edit Classroom" : "Add New Classroom"}
+      >
+        <form key={editingClassroom?.id || "new"} onSubmit={handleSubmit} className="space-y-4">
+          {error && (
+            <div className="rounded-lg bg-danger-500/10 border border-danger-500/20 px-4 py-3 text-sm text-danger-600">
+              {error}
+            </div>
+          )}
+          <Input
+            id="name"
+            name="name"
+            label="Room Name"
+            placeholder="Room 101"
+            defaultValue={editingClassroom?.name || ""}
+            required
+          />
+          <Input
+            id="building"
+            name="building"
+            label="Building"
+            placeholder="Science Building"
+            defaultValue={editingClassroom?.building || ""}
+            required
+          />
+          <Input
+            id="capacity"
+            name="capacity"
+            type="number"
+            min={1}
+            label="Capacity"
+            defaultValue={editingClassroom?.capacity || 30}
+            required
+          />
+          <div className="flex justify-end gap-3 pt-2">
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => {
+                setIsModalOpen(false);
+                setEditingClassroom(null);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" isLoading={isLoading}>
+              {editingClassroom ? "Save Changes" : "Add Classroom"}
+            </Button>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 }

@@ -99,3 +99,36 @@ export async function deleteClassroom(classroomId: string) {
   revalidatePath("/admin/classrooms");
   return { error: null };
 }
+
+/**
+ * Admin: Update a classroom.
+ */
+export async function updateClassroom(classroomId: string, formData: FormData) {
+  const user = await getCurrentUser();
+  if (!user || user.role !== "admin") return { error: "Unauthorized" };
+
+  const name = (formData.get("name") as string)?.trim();
+  const building = (formData.get("building") as string)?.trim();
+  const capacityValue = (formData.get("capacity") as string)?.trim();
+  const capacity = capacityValue ? Number.parseInt(capacityValue, 10) : 30;
+
+  if (!name || !building) {
+    return { error: "Room name and building are required." };
+  }
+
+  if (!Number.isInteger(capacity) || capacity <= 0) {
+    return { error: "Capacity must be a positive number." };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("classrooms")
+    .update({ name, building, capacity })
+    .eq("id", classroomId);
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/classrooms");
+  revalidatePath("/admin/classrooms");
+  return { error: null };
+}
