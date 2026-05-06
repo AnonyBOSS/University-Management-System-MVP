@@ -68,7 +68,7 @@ export function CreateAssignmentButton({ courses }: CreateAssignmentButtonProps)
           <Textarea id="description" name="description" label="Description" placeholder="Describe the assignment..." rows={3} />
           <div className="grid grid-cols-2 gap-4">
             <Input id="due_date" name="due_date" type="datetime-local" label="Due Date" min={minDueDate} required />
-            <Input id="max_score" name="max_score" type="number" label="Max Score" defaultValue="100" />
+            <Input id="max_score" name="max_score" type="number" min={0} label="Max Score" defaultValue="100" required />
           </div>
           <div className="flex justify-end gap-3 pt-2">
             <Button type="button" variant="ghost" onClick={() => setIsOpen(false)}>Cancel</Button>

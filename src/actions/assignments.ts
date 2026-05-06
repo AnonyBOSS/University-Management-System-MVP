@@ -88,12 +88,17 @@ export async function createAssignment(formData: FormData) {
     return { error: "Deadline must be a future date and time." };
   }
 
+  const maxScore = parseInt(formData.get("max_score") as string) || 100;
+  if (!Number.isInteger(maxScore) || maxScore < 0) {
+    return { error: "Max score must be 0 or greater." };
+  }
+
   const { error } = await supabase.from("assignments").insert({
     course_id: formData.get("course_id") as string,
     title: formData.get("title") as string,
     description: formData.get("description") as string,
     due_date: dueDate.toISOString(),
-    max_score: parseInt(formData.get("max_score") as string) || 100,
+    max_score: maxScore,
   });
 
   if (error) return { error: error.message };
@@ -113,8 +118,13 @@ export async function submitAssignment(formData: FormData) {
 
   const supabase = await createClient();
   const assignmentId = formData.get("assignment_id") as string;
-  const content = formData.get("content") as string;
+  const content = (formData.get("content") as string)?.trim() || "";
   const file = formData.get("file") as File | null;
+
+  // Validate: at least content or file must be provided
+  if (!content && (!file || file.size === 0)) {
+    return { error: "Please provide either text content or upload a file." };
+  }
 
   let fileUrl: string | null = null;
 
