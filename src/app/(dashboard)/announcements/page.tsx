@@ -14,7 +14,7 @@ export default async function AnnouncementsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-surface-900">Announcements</h1>
+        <h1 className="text-2xl font-bold text-surface-900 dark:text-white">Announcements</h1>
         <p className="text-surface-500 mt-1">Latest news and updates from the university.</p>
       </div>
 
@@ -29,8 +29,8 @@ export default async function AnnouncementsPage() {
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-surface-900">{a.title}</h3>
-                  <p className="text-surface-600 mt-2 leading-relaxed whitespace-pre-wrap">{a.body}</p>
+                  <h3 className="font-semibold text-surface-900 dark:text-white">{a.title}</h3>
+                  <p className="text-surface-600 dark:text-surface-300 mt-2 leading-relaxed whitespace-pre-wrap">{a.body}</p>
                   <p className="text-xs text-surface-400 mt-3">
                     Posted by {a.author?.full_name} • {formatDateTime(a.created_at)}
                   </p>

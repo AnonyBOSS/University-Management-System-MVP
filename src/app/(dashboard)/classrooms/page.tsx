@@ -14,7 +14,7 @@ export default async function ClassroomsPage() {
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-surface-900">Classrooms</h1>
+        <h1 className="text-2xl font-bold text-surface-900 dark:text-white">Classrooms</h1>
         <p className="text-surface-500 mt-1">View available classrooms and make reservations.</p>
       </div>
 

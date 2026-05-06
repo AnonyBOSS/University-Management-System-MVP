@@ -13,7 +13,7 @@ export default async function CoursesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-surface-900">Course Catalog</h1>
+        <h1 className="text-2xl font-bold text-surface-900 dark:text-white">Course Catalog</h1>
         <p className="text-surface-500 mt-1">Browse available courses and manage your enrollment.</p>
       </div>
       <CourseList courses={courses} />

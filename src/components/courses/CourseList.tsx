@@ -62,7 +62,7 @@ export function CourseList({ courses }: CourseListProps) {
                 </Badge>
                 <span className="text-xs text-surface-400 font-mono">{course.code}</span>
               </div>
-              <h3 className="font-semibold text-surface-900 mb-2">{course.title}</h3>
+              <h3 className="font-semibold text-surface-900 dark:text-white mb-2">{course.title}</h3>
               {course.description && (
                 <p className="text-sm text-surface-500 line-clamp-2 mb-3">{course.description}</p>
               )}

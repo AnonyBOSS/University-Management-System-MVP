@@ -69,7 +69,7 @@ export function AdminCoursesClient({ courses, professors }: AdminCoursesClientPr
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-surface-900">Manage Courses</h1>
+          <h1 className="text-2xl font-bold text-surface-900 dark:text-white">Manage Courses</h1>
           <p className="text-surface-500 mt-1">Add, edit, and manage university courses.</p>
         </div>
         <Button onClick={openCreateModal}>
@@ -87,41 +87,41 @@ export function AdminCoursesClient({ courses, professors }: AdminCoursesClientPr
       <Card className="overflow-hidden p-0">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-surface-50 border-b border-surface-200">
+            <thead className="bg-surface-50 dark:bg-surface-800 border-b border-surface-200 dark:border-surface-700">
               <tr>
-                <th className="text-left px-6 py-3 font-medium text-surface-600">Code</th>
-                <th className="text-left px-6 py-3 font-medium text-surface-600">Title</th>
-                <th className="text-left px-6 py-3 font-medium text-surface-600">Type</th>
-                <th className="text-left px-6 py-3 font-medium text-surface-600">Professor</th>
-                <th className="text-left px-6 py-3 font-medium text-surface-600">Capacity</th>
-                <th className="text-left px-6 py-3 font-medium text-surface-600">Schedule</th>
-                <th className="text-left px-6 py-3 font-medium text-surface-600">Actions</th>
+                <th className="text-left px-6 py-3 font-medium text-surface-600 dark:text-surface-400">Code</th>
+                <th className="text-left px-6 py-3 font-medium text-surface-600 dark:text-surface-400">Title</th>
+                <th className="text-left px-6 py-3 font-medium text-surface-600 dark:text-surface-400">Type</th>
+                <th className="text-left px-6 py-3 font-medium text-surface-600 dark:text-surface-400">Professor</th>
+                <th className="text-left px-6 py-3 font-medium text-surface-600 dark:text-surface-400">Capacity</th>
+                <th className="text-left px-6 py-3 font-medium text-surface-600 dark:text-surface-400">Schedule</th>
+                <th className="text-left px-6 py-3 font-medium text-surface-600 dark:text-surface-400">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-surface-100">
+            <tbody className="divide-y divide-surface-100 dark:divide-surface-700">
               {courses.map((course) => (
-                <tr key={course.id} className="hover:bg-surface-50 transition-colors">
-                  <td className="px-6 py-4 font-mono text-surface-600">{course.code}</td>
-                  <td className="px-6 py-4 font-medium text-surface-800">{course.title}</td>
+                <tr key={course.id} className="hover:bg-surface-50 dark:hover:bg-surface-800 transition-colors">
+                  <td className="px-6 py-4 font-mono text-surface-600 dark:text-surface-400">{course.code}</td>
+                  <td className="px-6 py-4 font-medium text-surface-800 dark:text-surface-200">{course.title}</td>
                   <td className="px-6 py-4">
                     <Badge variant={course.type === "core" ? "primary" : "success"}>{course.type}</Badge>
                   </td>
-                  <td className="px-6 py-4 text-surface-600">{course.professor?.full_name || "TBA"}</td>
-                  <td className="px-6 py-4 text-surface-600">{course.max_capacity}</td>
-                  <td className="px-6 py-4 text-surface-600">{course.schedule || "—"}</td>
+                  <td className="px-6 py-4 text-surface-600 dark:text-surface-400">{course.professor?.full_name || "TBA"}</td>
+                  <td className="px-6 py-4 text-surface-600 dark:text-surface-400">{course.max_capacity}</td>
+                  <td className="px-6 py-4 text-surface-600 dark:text-surface-400">{course.schedule || "—"}</td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
                       <button
                         type="button"
                         onClick={() => openEditModal(course)}
-                        className="rounded-lg border border-surface-300 px-3 py-1.5 text-xs font-medium text-surface-700 hover:bg-surface-50 transition-colors"
+                        className="rounded-lg border border-surface-300 dark:border-surface-600 px-3 py-1.5 text-xs font-medium text-surface-700 dark:text-surface-300 hover:bg-surface-50 dark:hover:bg-surface-700 transition-colors"
                       >
                         Edit
                       </button>
                       <button
                         type="button"
                         onClick={() => handleDelete(course)}
-                        className="rounded-lg border border-danger-200 px-3 py-1.5 text-xs font-medium text-danger-600 hover:bg-danger-50 transition-colors"
+                        className="rounded-lg border border-danger-200 dark:border-danger-500/30 px-3 py-1.5 text-xs font-medium text-danger-600 dark:text-danger-400 hover:bg-danger-50 dark:hover:bg-danger-500/10 transition-colors"
                       >
                         Delete
                       </button>

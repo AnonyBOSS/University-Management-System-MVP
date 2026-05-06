@@ -58,7 +58,7 @@ async function StudentDashboard({ userId, supabase, userName }: { userId: string
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-2xl font-bold text-surface-900">Welcome back, {userName.split(" ")[0]}!</h1>
+        <h1 className="text-2xl font-bold text-surface-900 dark:text-white">Welcome back, {userName.split(" ")[0]}!</h1>
         <p className="text-surface-500 mt-1">Here&apos;s what&apos;s happening in your courses.</p>
       </div>
 
@@ -90,8 +90,8 @@ async function StudentDashboard({ userId, supabase, userName }: { userId: string
               {enrollments.map((e) => (
                 <Link key={e.id} href={`/courses/${e.course_id}`} className="flex items-center justify-between p-3 rounded-lg hover:bg-surface-50 transition-colors">
                   <div>
-                    <p className="font-medium text-surface-800">{e.course?.title}</p>
-                    <p className="text-sm text-surface-500">{e.course?.code} • {e.course?.professor?.full_name}</p>
+                  <p className="font-medium text-surface-800 dark:text-white">{e.course?.title}</p>
+                  <p className="text-sm text-surface-500 dark:text-surface-400">{e.course?.code} • {e.course?.professor?.full_name}</p>
                   </div>
                   <Badge variant="primary">{e.course?.type}</Badge>
                 </Link>
@@ -113,8 +113,8 @@ async function StudentDashboard({ userId, supabase, userName }: { userId: string
               {assignments.map((a) => (
                 <Link key={a.id} href={`/assignments/${a.id}`} className="flex items-center justify-between p-3 rounded-lg hover:bg-surface-50 transition-colors">
                   <div>
-                    <p className="font-medium text-surface-800">{a.title}</p>
-                    <p className="text-sm text-surface-500">{a.course?.code}</p>
+                    <p className="font-medium text-surface-800 dark:text-white">{a.title}</p>
+                    <p className="text-sm text-surface-500 dark:text-surface-400">{a.course?.code}</p>
                   </div>
                   <Badge variant="warning">Due {formatDate(a.due_date)}</Badge>
                 </Link>
@@ -136,8 +136,8 @@ async function StudentDashboard({ userId, supabase, userName }: { userId: string
           <div className="space-y-4">
             {announcements.map((a) => (
               <div key={a.id} className="border-b border-surface-100 last:border-0 pb-4 last:pb-0">
-                <h4 className="font-medium text-surface-800">{a.title}</h4>
-                <p className="text-sm text-surface-500 mt-1 line-clamp-2">{a.body}</p>
+                <h4 className="font-medium text-surface-800 dark:text-white">{a.title}</h4>
+                <p className="text-sm text-surface-500 dark:text-surface-400 mt-1 line-clamp-2">{a.body}</p>
                 <p className="text-xs text-surface-400 mt-2">{a.author?.full_name} • {formatDateTime(a.created_at)}</p>
               </div>
             ))}
@@ -182,7 +182,7 @@ async function ProfessorDashboard({ userId, supabase, userName }: { userId: stri
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-2xl font-bold text-surface-900">Welcome, Prof. {userName.split(" ")[0]}!</h1>
+        <h1 className="text-2xl font-bold text-surface-900 dark:text-white">Welcome, Prof. {userName.split(" ")[0]}!</h1>
         <p className="text-surface-500 mt-1">Manage your courses and student submissions.</p>
       </div>
 
@@ -212,8 +212,8 @@ async function ProfessorDashboard({ userId, supabase, userName }: { userId: stri
               {courses.map((c) => (
                 <Link key={c.id} href={`/courses/${c.id}`} className="flex items-center justify-between p-3 rounded-lg hover:bg-surface-50 transition-colors">
                   <div>
-                    <p className="font-medium text-surface-800">{c.title}</p>
-                    <p className="text-sm text-surface-500">{c.code} • {c.schedule || "No schedule"}</p>
+                    <p className="font-medium text-surface-800 dark:text-white">{c.title}</p>
+                    <p className="text-sm text-surface-500 dark:text-surface-400">{c.code} • {c.schedule || "No schedule"}</p>
                   </div>
                   <Badge variant="primary">{c.type}</Badge>
                 </Link>
@@ -234,8 +234,8 @@ async function ProfessorDashboard({ userId, supabase, userName }: { userId: stri
               {pendingSubmissions.map((s) => (
                 <Link key={s.id} href={`/assignments/${s.assignment_id}`} className="flex items-center justify-between p-3 rounded-lg hover:bg-surface-50 transition-colors">
                   <div>
-                    <p className="font-medium text-surface-800">{s.student?.full_name}</p>
-                    <p className="text-sm text-surface-500">{s.assignment?.title}</p>
+                    <p className="font-medium text-surface-800 dark:text-white">{s.student?.full_name}</p>
+                    <p className="text-sm text-surface-500 dark:text-surface-400">{s.assignment?.title}</p>
                   </div>
                   <Badge variant="warning">Needs Grading</Badge>
                 </Link>
@@ -262,7 +262,7 @@ async function AdminDashboard({ supabase, userName }: { supabase: Awaited<Return
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-2xl font-bold text-surface-900">Admin Dashboard</h1>
+        <h1 className="text-2xl font-bold text-surface-900 dark:text-white">Admin Dashboard</h1>
         <p className="text-surface-500 mt-1">Welcome, {userName}. System overview below.</p>
       </div>
 
@@ -291,12 +291,12 @@ async function AdminDashboard({ supabase, userName }: { supabase: Awaited<Return
           <CardTitle>Quick Actions</CardTitle>
         </CardHeader>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <Link href="/admin/courses" className="flex items-center gap-3 p-4 rounded-lg border border-surface-200 hover:border-primary-300 hover:bg-primary-50 transition-all">
-            <div className="w-10 h-10 rounded-lg bg-primary-100 text-primary-600 flex items-center justify-center">
+          <Link href="/admin/courses" className="flex items-center gap-3 p-4 rounded-lg border border-surface-200 dark:border-surface-700 hover:border-primary-300 dark:hover:border-primary-500 hover:bg-primary-50 dark:hover:bg-primary-500/10 transition-all">
+            <div className="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-500/20 text-primary-600 dark:text-primary-400 flex items-center justify-center">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
             </div>
             <div>
-              <p className="font-medium text-surface-800">Add Course</p>
+              <p className="font-medium text-surface-800 dark:text-white">Add Course</p>
               <p className="text-xs text-surface-400">Create a new course</p>
             </div>
           </Link>

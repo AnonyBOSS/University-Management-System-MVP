@@ -46,7 +46,7 @@ export function AdminAnnouncementsClient({ announcements }: AdminAnnouncementsCl
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-surface-900">Manage Announcements</h1>
+        <h1 className="text-2xl font-bold text-surface-900 dark:text-white">Manage Announcements</h1>
         <p className="text-surface-500 mt-1">Create and manage university-wide announcements.</p>
       </div>
 
@@ -69,15 +69,15 @@ export function AdminAnnouncementsClient({ announcements }: AdminAnnouncementsCl
         {announcements.length > 0 ? (
           <div className="space-y-4">
             {announcements.map((a) => (
-              <div key={a.id} className="flex items-start justify-between p-4 rounded-lg border border-surface-200">
+              <div key={a.id} className="flex items-start justify-between p-4 rounded-lg border border-surface-200 dark:border-surface-700">
                 <div className="flex-1">
-                  <h4 className="font-medium text-surface-800">{a.title}</h4>
-                  <p className="text-sm text-surface-500 mt-1 line-clamp-2">{a.body}</p>
+                  <h4 className="font-medium text-surface-800 dark:text-white">{a.title}</h4>
+                  <p className="text-sm text-surface-500 dark:text-surface-400 mt-1 line-clamp-2">{a.body}</p>
                   <p className="text-xs text-surface-400 mt-2">{formatDateTime(a.created_at)}</p>
                 </div>
                 <button
                   onClick={() => handleDelete(a.id)}
-                  className="ml-3 p-2 text-surface-400 hover:text-danger-500 hover:bg-danger-50 rounded-lg transition-colors"
+                  className="ml-3 p-2 text-surface-400 dark:text-surface-500 hover:text-danger-500 dark:hover:text-danger-400 hover:bg-danger-50 dark:hover:bg-danger-500/10 rounded-lg transition-colors"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
