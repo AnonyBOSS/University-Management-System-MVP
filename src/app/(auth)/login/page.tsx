@@ -39,7 +39,7 @@ export default function LoginPage() {
       </div>
 
       {/* Right panel — form */}
-      <div className="flex-1 flex items-center justify-center p-8 bg-surface-50">
+      <div className="flex-1 flex items-center justify-center p-8 bg-surface-50 dark:bg-surface-900">
         <AuthForm mode="login" />
       </div>
     </div>

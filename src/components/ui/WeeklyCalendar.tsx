@@ -72,8 +72,8 @@ export function WeeklyCalendar({ blocks, startHour = 8, endHour = 18 }: WeeklyCa
           {/* Time labels + day grid */}
           {hours.map((hour) => (
             <div key={hour} className="contents">
-              <div className="bg-white dark:bg-surface-800 px-2 py-0 h-12 flex items-start justify-end">
-                <span className="text-[10px] text-surface-400 -translate-y-1.5">{hour.toString().padStart(2, "0")}:00</span>
+              <div className="bg-white dark:bg-surface-800 px-2 h-12 flex items-center justify-end">
+                <span className="text-[10px] text-surface-400">{hour.toString().padStart(2, "0")}:00</span>
               </div>
               {DAYS.map((_, dayIndex) => (
                 <div key={`${hour}-${dayIndex}`} className="bg-white dark:bg-surface-800 h-12 relative border-t border-surface-100 dark:border-surface-700" />
