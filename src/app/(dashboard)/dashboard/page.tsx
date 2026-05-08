@@ -88,7 +88,7 @@ async function StudentDashboard({ userId, supabase, userName }: { userId: string
           {enrollments && enrollments.length > 0 ? (
             <div className="space-y-3">
               {enrollments.map((e) => (
-                <Link key={e.id} href={`/courses/${e.course_id}`} className="flex items-center justify-between p-3 rounded-lg hover:bg-surface-50 transition-colors">
+                <Link key={e.id} href={`/courses/${e.course_id}`} className="flex items-center justify-between rounded-lg border border-transparent p-3 transition-all hover:-translate-y-0.5 hover:border-surface-200 hover:bg-surface-50 hover:shadow-sm dark:hover:border-surface-600 dark:hover:bg-surface-700/70 dark:hover:shadow-md">
                   <div>
                   <p className="font-medium text-surface-800 dark:text-white">{e.course?.title}</p>
                   <p className="text-sm text-surface-500 dark:text-surface-400">{e.course?.code} • {e.course?.professor?.full_name}</p>
@@ -111,7 +111,7 @@ async function StudentDashboard({ userId, supabase, userName }: { userId: string
           {assignments && assignments.length > 0 ? (
             <div className="space-y-3">
               {assignments.map((a) => (
-                <Link key={a.id} href={`/assignments/${a.id}`} className="flex items-center justify-between p-3 rounded-lg hover:bg-surface-50 transition-colors">
+                <Link key={a.id} href={`/assignments/${a.id}`} className="flex items-center justify-between rounded-lg border border-transparent p-3 transition-all hover:-translate-y-0.5 hover:border-surface-200 hover:bg-surface-50 hover:shadow-sm dark:hover:border-surface-600 dark:hover:bg-surface-700/70 dark:hover:shadow-md">
                   <div>
                     <p className="font-medium text-surface-800 dark:text-white">{a.title}</p>
                     <p className="text-sm text-surface-500 dark:text-surface-400">{a.course?.code}</p>
@@ -210,7 +210,7 @@ async function ProfessorDashboard({ userId, supabase, userName }: { userId: stri
           {courses && courses.length > 0 ? (
             <div className="space-y-3">
               {courses.map((c) => (
-                <Link key={c.id} href={`/courses/${c.id}`} className="flex items-center justify-between p-3 rounded-lg hover:bg-surface-50 transition-colors">
+                <Link key={c.id} href={`/courses/${c.id}`} className="flex items-center justify-between rounded-lg border border-transparent p-3 transition-all hover:-translate-y-0.5 hover:border-surface-200 hover:bg-surface-50 hover:shadow-sm dark:hover:border-surface-600 dark:hover:bg-surface-700/70 dark:hover:shadow-md">
                   <div>
                     <p className="font-medium text-surface-800 dark:text-white">{c.title}</p>
                     <p className="text-sm text-surface-500 dark:text-surface-400">{c.code} • {c.schedule || "No schedule"}</p>
@@ -232,7 +232,7 @@ async function ProfessorDashboard({ userId, supabase, userName }: { userId: stri
           {pendingSubmissions && pendingSubmissions.length > 0 ? (
             <div className="space-y-3">
               {pendingSubmissions.map((s) => (
-                <Link key={s.id} href={`/assignments/${s.assignment_id}`} className="flex items-center justify-between p-3 rounded-lg hover:bg-surface-50 transition-colors">
+                <Link key={s.id} href={`/assignments/${s.assignment_id}`} className="flex items-center justify-between rounded-lg border border-transparent p-3 transition-all hover:-translate-y-0.5 hover:border-surface-200 hover:bg-surface-50 hover:shadow-sm dark:hover:border-surface-600 dark:hover:bg-surface-700/70 dark:hover:shadow-md">
                   <div>
                     <p className="font-medium text-surface-800 dark:text-white">{s.student?.full_name}</p>
                     <p className="text-sm text-surface-500 dark:text-surface-400">{s.assignment?.title}</p>

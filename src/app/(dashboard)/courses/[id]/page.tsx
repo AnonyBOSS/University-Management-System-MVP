@@ -64,21 +64,21 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ i
         )}
 
         <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div className="p-3 rounded-lg bg-surface-50">
+          <div className="p-3 rounded-lg bg-surface-50 dark:bg-surface-900/60 border border-transparent dark:border-surface-700">
             <p className="text-xs text-surface-400 mb-1">Professor</p>
-            <p className="font-medium text-surface-800">{course.professor?.full_name || "TBA"}</p>
+            <p className="font-medium text-surface-800 dark:text-surface-200">{course.professor?.full_name || "TBA"}</p>
           </div>
-          <div className="p-3 rounded-lg bg-surface-50">
+          <div className="p-3 rounded-lg bg-surface-50 dark:bg-surface-900/60 border border-transparent dark:border-surface-700">
             <p className="text-xs text-surface-400 mb-1">Schedule</p>
-            <p className="font-medium text-surface-800">{course.schedule || "TBA"}</p>
+            <p className="font-medium text-surface-800 dark:text-surface-200">{course.schedule || "TBA"}</p>
           </div>
-          <div className="p-3 rounded-lg bg-surface-50">
+          <div className="p-3 rounded-lg bg-surface-50 dark:bg-surface-900/60 border border-transparent dark:border-surface-700">
             <p className="text-xs text-surface-400 mb-1">Enrollment</p>
-            <p className="font-medium text-surface-800">{course.enrollment_count}/{course.max_capacity}</p>
+            <p className="font-medium text-surface-800 dark:text-surface-200">{course.enrollment_count}/{course.max_capacity}</p>
           </div>
-          <div className="p-3 rounded-lg bg-surface-50">
+          <div className="p-3 rounded-lg bg-surface-50 dark:bg-surface-900/60 border border-transparent dark:border-surface-700">
             <p className="text-xs text-surface-400 mb-1">Type</p>
-            <p className="font-medium text-surface-800 capitalize">{course.type}</p>
+            <p className="font-medium text-surface-800 dark:text-surface-200 capitalize">{course.type}</p>
           </div>
         </div>
 

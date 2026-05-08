@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { updateProfile } from "@/actions/profile";
 import { useRouter } from "next/navigation";
+import { formatDate } from "@/lib/utils";
 import type { Profile } from "@/lib/types/database";
 
 export function SettingsClient({ user }: { user: Profile }) {
@@ -110,7 +111,7 @@ export function SettingsClient({ user }: { user: Profile }) {
         <div className="space-y-3 text-sm">
           <div className="flex justify-between py-2 border-b border-surface-100 dark:border-surface-700">
             <span className="text-surface-500">Member since</span>
-            <span className="text-surface-800 dark:text-surface-200">{new Date(user.created_at).toLocaleDateString()}</span>
+            <span className="text-surface-800 dark:text-surface-200">{formatDate(user.created_at)}</span>
           </div>
           <div className="flex justify-between py-2">
             <span className="text-surface-500">User ID</span>

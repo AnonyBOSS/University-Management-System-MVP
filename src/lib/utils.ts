@@ -11,24 +11,26 @@ export function cn(...inputs: ClassValue[]) {
  * Format a date string to a human-readable format.
  */
 export function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString("en-US", {
+  return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
-  });
+    timeZone: "UTC",
+  }).format(new Date(dateString));
 }
 
 /**
  * Format a date string to include time.
  */
 export function formatDateTime(dateString: string): string {
-  return new Date(dateString).toLocaleDateString("en-US", {
+  return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
-  });
+    timeZone: "UTC",
+  }).format(new Date(dateString));
 }
 
 /**

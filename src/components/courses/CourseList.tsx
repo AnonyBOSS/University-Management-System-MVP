@@ -42,7 +42,7 @@ export function CourseList({ courses }: CourseListProps) {
               className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
                 filter === f
                   ? "bg-primary-600 text-white shadow-sm"
-                  : "bg-white text-surface-600 border border-surface-200 hover:bg-surface-50"
+                  : "bg-white dark:bg-surface-800 text-surface-600 dark:text-surface-300 border border-surface-200 dark:border-surface-700 hover:bg-surface-50 dark:hover:bg-surface-700"
               }`}
             >
               {f.charAt(0).toUpperCase() + f.slice(1)}
@@ -66,7 +66,7 @@ export function CourseList({ courses }: CourseListProps) {
               {course.description && (
                 <p className="text-sm text-surface-500 line-clamp-2 mb-3">{course.description}</p>
               )}
-              <div className="flex items-center justify-between text-sm text-surface-400 pt-3 border-t border-surface-100">
+              <div className="flex items-center justify-between text-sm text-surface-400 pt-3 border-t border-surface-100 dark:border-surface-700">
                 <span>{course.professor?.full_name || "TBA"}</span>
                 <span>{course.enrollment_count || 0}/{course.max_capacity} enrolled</span>
               </div>
