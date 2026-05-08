@@ -82,19 +82,26 @@ export async function resetPassword(formData: FormData) {
  * Get the current authenticated user's profile.
  */
 export async function getCurrentUser() {
-  const supabase = await createClient();
+  try {
+    const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
-  if (!user) return null;
+    if (authError || !user) return null;
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", user.id)
-    .single();
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
 
-  return profile;
+    if (profileError) return null;
+    return profile;
+  } catch {
+    // Handle token refresh/auth session failures gracefully in server actions.
+    return null;
+  }
 }

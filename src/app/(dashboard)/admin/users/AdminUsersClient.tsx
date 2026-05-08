@@ -16,16 +16,31 @@ export function AdminUsersClient({ users }: AdminUsersClientProps) {
   const router = useRouter();
   const [loadingId, setLoadingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [roleByUserId, setRoleByUserId] = useState<Record<string, UserRole>>(
+    () => Object.fromEntries(users.map((u) => [u.id, u.role]))
+  );
 
-  const handleRoleChange = async (userId: string, newRole: string) => {
+  const handleRoleChange = async (userId: string, newRole: UserRole) => {
+    const previousRole = roleByUserId[userId];
+
+    // Optimistically reflect the selected role immediately.
+    setRoleByUserId((prev) => ({ ...prev, [userId]: newRole }));
     setLoadingId(userId);
     setError(null);
-    const result = await updateUserRole(userId, newRole);
-    if (result?.error) {
-      setError(result.error);
-    } else {
-      router.refresh();
+
+    try {
+      const result = await updateUserRole(userId, newRole);
+      if (result?.error) {
+        setError(result.error);
+        setRoleByUserId((prev) => ({ ...prev, [userId]: previousRole }));
+      } else {
+        router.refresh();
+      }
+    } catch {
+      setError("Could not update role right now. Please sign in again and retry.");
+      setRoleByUserId((prev) => ({ ...prev, [userId]: previousRole }));
     }
+
     setLoadingId(null);
   };
 
@@ -72,8 +87,8 @@ export function AdminUsersClient({ users }: AdminUsersClientProps) {
                   <td className="px-6 py-4 text-surface-500">{formatDateTime(u.created_at)}</td>
                   <td className="px-6 py-4">
                     <select
-                      value={u.role}
-                      onChange={(e) => handleRoleChange(u.id, e.target.value)}
+                      value={roleByUserId[u.id] ?? u.role}
+                      onChange={(e) => handleRoleChange(u.id, e.target.value as UserRole)}
                       disabled={loadingId === u.id}
                       className="rounded-lg border border-surface-300 dark:border-surface-600 bg-white dark:bg-surface-800 px-2 py-1 text-sm focus:border-primary-500 focus:outline-none disabled:opacity-50"
                     >

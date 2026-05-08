@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "./auth";
 import { revalidatePath } from "next/cache";
 import type { UserRole } from "@/lib/types/database";
@@ -34,11 +35,26 @@ export async function updateUserRole(userId: string, role: string) {
     return { error: "Please select a valid role." };
   }
 
-  const supabase = await createClient();
-  const { error } = await supabase
-    .from("profiles")
-    .update({ role })
-    .eq("id", userId);
+  // Prefer service-role client for privileged updates to avoid RLS drift in deployed DB.
+  // Still gated by the authenticated admin check above.
+  let error: { message: string } | null = null;
+
+  try {
+    const adminSupabase = createAdminClient();
+    const result = await adminSupabase
+      .from("profiles")
+      .update({ role: role as UserRole })
+      .eq("id", userId);
+    error = result.error;
+  } catch {
+    // Fallback to request-scoped client (RLS) if service role key is not configured.
+    const supabase = await createClient();
+    const result = await supabase
+      .from("profiles")
+      .update({ role: role as UserRole })
+      .eq("id", userId);
+    error = result.error;
+  }
 
   if (error) return { error: error.message };
 
