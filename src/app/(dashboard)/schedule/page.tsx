@@ -16,8 +16,8 @@ function parseSchedule(schedule: string, courseTitle: string, courseId: string) 
   if (!schedule) return blocks;
 
   const dayMap: Record<string, number> = {
-    mon: 0, tue: 1, wed: 2, thu: 3, fri: 4,
-    monday: 0, tuesday: 1, wednesday: 2, thursday: 3, friday: 4,
+    mon: 0, tue: 1, wed: 2, thu: 3, fri: 4, sat: 5, sun: 6,
+    monday: 0, tuesday: 1, wednesday: 2, thursday: 3, friday: 4, saturday: 5, sunday: 6,
   };
 
   // Try to parse "Mon/Wed 10:00-11:30" or "Monday, Wednesday 10:00 - 11:30"
@@ -27,10 +27,22 @@ function parseSchedule(schedule: string, courseTitle: string, courseId: string) 
   const startTime = timeMatch[1];
   const endTime = timeMatch[2];
 
-  // Find day names in the string
+  // Find day names in the string, including weekend abbreviations
   const lowerSchedule = schedule.toLowerCase();
-  for (const [name, dayIndex] of Object.entries(dayMap)) {
-    if (lowerSchedule.includes(name)) {
+  const dayPattern = /\b(mon(?:day)?|tue(?:sday)?|wed(?:nesday)?|thu(?:rsday)?|fri(?:day)?|sat(?:urday)?|sun(?:day)?)\b/g;
+  const matchedDays = new Set<number>();
+  for (const match of lowerSchedule.matchAll(dayPattern)) {
+    const dayIndex = dayMap[match[1]];
+    if (dayIndex !== undefined) matchedDays.add(dayIndex);
+  }
+
+  if (matchedDays.size === 0) {
+    for (const [name, dayIndex] of Object.entries(dayMap)) {
+      if (lowerSchedule.includes(name)) matchedDays.add(dayIndex);
+    }
+  }
+
+  for (const dayIndex of matchedDays) {
       blocks.push({
         id: `${courseId}-${dayIndex}`,
         title: courseTitle,
@@ -38,7 +50,6 @@ function parseSchedule(schedule: string, courseTitle: string, courseId: string) 
         endTime,
         day: dayIndex,
       });
-    }
   }
 
   return blocks;

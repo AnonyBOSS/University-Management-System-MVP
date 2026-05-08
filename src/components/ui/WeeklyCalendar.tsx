@@ -7,7 +7,7 @@ interface TimeBlock {
   title: string;
   startTime: string; // HH:MM
   endTime: string;   // HH:MM
-  day: number;       // 0=Mon, 1=Tue, ..., 4=Fri
+  day: number;       // 0=Mon, 1=Tue, ..., 6=Sun
   color?: string;
 }
 
@@ -17,7 +17,7 @@ interface WeeklyCalendarProps {
   endHour?: number;
 }
 
-const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const COLORS = [
   "bg-primary-100 dark:bg-primary-900/40 text-primary-700 dark:text-primary-300 border-primary-200 dark:border-primary-800",
@@ -53,9 +53,9 @@ export function WeeklyCalendar({ blocks, startHour = 8, endHour = 18 }: WeeklyCa
 
   return (
     <div className="overflow-x-auto">
-      <div className="min-w-[600px]">
+      <div className="min-w-150">
         {/* Header row */}
-        <div className="grid grid-cols-[60px_repeat(5,1fr)] gap-px bg-surface-200 dark:bg-surface-700 rounded-t-xl overflow-hidden">
+        <div className="grid grid-cols-[60px_repeat(7,1fr)] gap-px bg-surface-200 dark:bg-surface-700 rounded-t-xl overflow-hidden">
           <div className="bg-surface-50 dark:bg-surface-800 p-2" />
           {DAYS.map((day) => (
             <div key={day} className="bg-surface-50 dark:bg-surface-800 p-3 text-center text-sm font-semibold text-surface-700 dark:text-surface-300">
@@ -64,27 +64,26 @@ export function WeeklyCalendar({ blocks, startHour = 8, endHour = 18 }: WeeklyCa
           ))}
         </div>
 
-        {/* Time grid */}
-        <div className="grid grid-cols-[60px_repeat(5,1fr)] gap-px bg-surface-200 dark:bg-surface-700 rounded-b-xl overflow-hidden">
-          {/* Time labels + day columns */}
+        {/* Calendar body */}
+        <div
+          className="relative grid grid-cols-[60px_repeat(7,1fr)] gap-px bg-surface-200 dark:bg-surface-700 rounded-b-xl overflow-hidden"
+          style={{ height: `${hours.length * 48}px` }}
+        >
+          {/* Time labels + day grid */}
           {hours.map((hour) => (
             <div key={hour} className="contents">
-              {/* Time label */}
               <div className="bg-white dark:bg-surface-800 px-2 py-0 h-12 flex items-start justify-end">
                 <span className="text-[10px] text-surface-400 -translate-y-1.5">{hour.toString().padStart(2, "0")}:00</span>
               </div>
-              {/* Day cells */}
               {DAYS.map((_, dayIndex) => (
                 <div key={`${hour}-${dayIndex}`} className="bg-white dark:bg-surface-800 h-12 relative border-t border-surface-100 dark:border-surface-700" />
               ))}
             </div>
           ))}
-        </div>
 
-        {/* Overlay blocks */}
-        <div className="relative -mt-[calc(100%)] pointer-events-none">
-          <div className="grid grid-cols-[60px_repeat(5,1fr)] gap-px" style={{ height: `${hours.length * 48}px` }}>
-            <div /> {/* spacer for time column */}
+          {/* Event overlays */}
+          <div className="pointer-events-none absolute inset-0 grid grid-cols-[60px_repeat(7,1fr)] gap-px">
+            <div />
             {DAYS.map((_, dayIndex) => (
               <div key={dayIndex} className="relative">
                 {blocks
@@ -99,7 +98,7 @@ export function WeeklyCalendar({ blocks, startHour = 8, endHour = 18 }: WeeklyCa
                     return (
                       <div
                         key={block.id}
-                        className={`absolute left-0.5 right-0.5 rounded-md border px-1.5 py-0.5 overflow-hidden pointer-events-auto ${colorClass}`}
+                        className={`absolute left-0.5 right-0.5 rounded-md border px-1.5 py-0.5 overflow-hidden ${colorClass}`}
                         style={{ top: `${top}%`, height: `${height}%`, minHeight: "20px" }}
                       >
                         <p className="text-[10px] font-semibold truncate">{block.title}</p>
