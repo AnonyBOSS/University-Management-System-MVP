@@ -300,22 +300,22 @@ async function AdminDashboard({ supabase, userName }: { supabase: Awaited<Return
               <p className="text-xs text-surface-400">Create a new course</p>
             </div>
           </Link>
-          <Link href="/admin/announcements" className="flex items-center gap-3 p-4 rounded-lg border border-surface-200 hover:border-primary-300 hover:bg-primary-50 transition-all">
-            <div className="w-10 h-10 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center">
+          <Link href="/admin/announcements" className="flex items-center gap-3 p-4 rounded-lg border border-surface-200 dark:border-surface-700 hover:border-primary-300 dark:hover:border-amber-500 hover:bg-primary-50 dark:hover:bg-amber-900/20 transition-all">
+            <div className="w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-900/20 text-amber-600 dark:text-amber-300 flex items-center justify-center">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
             </div>
             <div>
-              <p className="font-medium text-surface-800">Post Announcement</p>
-              <p className="text-xs text-surface-400">Notify all users</p>
+              <p className="font-medium text-surface-800 dark:text-white">Post Announcement</p>
+              <p className="text-xs text-surface-400 dark:text-surface-300">Notify all users</p>
             </div>
           </Link>
-          <Link href="/classrooms" className="flex items-center gap-3 p-4 rounded-lg border border-surface-200 hover:border-primary-300 hover:bg-primary-50 transition-all">
-            <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center">
+          <Link href="/classrooms" className="flex items-center gap-3 p-4 rounded-lg border border-surface-200 dark:border-surface-700 hover:border-primary-300 dark:hover:border-emerald-500 hover:bg-primary-50 dark:hover:bg-emerald-900/20 transition-all">
+            <div className="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-300 flex items-center justify-center">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5" /></svg>
             </div>
             <div>
-              <p className="font-medium text-surface-800">Classrooms</p>
-              <p className="text-xs text-surface-400">View & manage rooms</p>
+              <p className="font-medium text-surface-800 dark:text-white">Classrooms</p>
+              <p className="text-xs text-surface-400 dark:text-surface-300">View & manage rooms</p>
             </div>
           </Link>
         </div>
