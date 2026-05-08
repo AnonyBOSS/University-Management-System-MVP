@@ -45,10 +45,10 @@ export default async function HomePage() {
             Built for modern universities
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-surface-900 leading-tight tracking-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-surface-900 leading-tight tracking-tight">
             Your University,
             <br />
-            <span className="bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">
               Unified & Simplified
             </span>
           </h1>
@@ -132,7 +132,7 @@ export default async function HomePage() {
       {/* CTA */}
       <section className="px-6 sm:px-12 py-20">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="p-12 rounded-3xl bg-gradient-to-br from-primary-600 to-primary-800 text-white shadow-2xl shadow-primary-600/20">
+          <div className="p-12 rounded-3xl bg-linear-to-br from-primary-600 to-primary-800 text-white shadow-2xl shadow-primary-600/20">
             <h2 className="text-3xl sm:text-4xl font-bold">Ready to get started?</h2>
             <p className="mt-4 text-primary-200 text-lg">Create your account in seconds. No credit card required.</p>
             <Link href="/signup" className="inline-block mt-8 px-8 py-3.5 bg-white text-primary-700 rounded-xl font-semibold hover:bg-primary-50 shadow-lg transition-all">

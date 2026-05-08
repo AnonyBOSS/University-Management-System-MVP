@@ -47,15 +47,15 @@ export default async function GradesPage() {
 
       {/* Overview */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="bg-gradient-to-br from-primary-500 to-primary-700 text-white border-0">
+        <Card className="bg-linear-to-br from-primary-500 to-primary-700 text-white border-0">
           <p className="text-primary-200 text-sm">Average Score</p>
           <p className="text-3xl font-bold mt-1">{avgScore}%</p>
         </Card>
-        <Card className="bg-gradient-to-br from-emerald-500 to-emerald-600 text-white border-0">
+        <Card className="bg-linear-to-br from-emerald-500 to-emerald-600 text-white border-0">
           <p className="text-emerald-100 text-sm">Graded</p>
           <p className="text-3xl font-bold mt-1">{graded.length}</p>
         </Card>
-        <Card className="bg-gradient-to-br from-amber-500 to-amber-600 text-white border-0">
+        <Card className="bg-linear-to-br from-amber-500 to-amber-600 text-white border-0">
           <p className="text-amber-100 text-sm">Pending</p>
           <p className="text-3xl font-bold mt-1">{(submissions?.length || 0) - graded.length}</p>
         </Card>

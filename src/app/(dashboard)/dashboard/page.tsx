@@ -64,15 +64,15 @@ async function StudentDashboard({ userId, supabase, userName }: { userId: string
 
       {/* Stats row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="bg-gradient-to-br from-primary-500 to-primary-700 text-white border-0">
+        <Card className="bg-linear-to-br from-primary-500 to-primary-700 text-white border-0">
           <p className="text-primary-200 text-sm">Enrolled Courses</p>
           <p className="text-3xl font-bold mt-1">{enrollments?.length || 0}</p>
         </Card>
-        <Card className="bg-gradient-to-br from-amber-500 to-amber-600 text-white border-0">
+        <Card className="bg-linear-to-br from-amber-500 to-amber-600 text-white border-0">
           <p className="text-amber-100 text-sm">Upcoming Assignments</p>
           <p className="text-3xl font-bold mt-1">{assignments?.length || 0}</p>
         </Card>
-        <Card className="bg-gradient-to-br from-emerald-500 to-emerald-600 text-white border-0">
+        <Card className="bg-linear-to-br from-emerald-500 to-emerald-600 text-white border-0">
           <p className="text-emerald-100 text-sm">Announcements</p>
           <p className="text-3xl font-bold mt-1">{announcements?.length || 0}</p>
         </Card>
@@ -187,15 +187,15 @@ async function ProfessorDashboard({ userId, supabase, userName }: { userId: stri
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="bg-gradient-to-br from-primary-500 to-primary-700 text-white border-0">
+        <Card className="bg-linear-to-br from-primary-500 to-primary-700 text-white border-0">
           <p className="text-primary-200 text-sm">Courses Teaching</p>
           <p className="text-3xl font-bold mt-1">{courses?.length || 0}</p>
         </Card>
-        <Card className="bg-gradient-to-br from-amber-500 to-amber-600 text-white border-0">
+        <Card className="bg-linear-to-br from-amber-500 to-amber-600 text-white border-0">
           <p className="text-amber-100 text-sm">Pending Reviews</p>
           <p className="text-3xl font-bold mt-1">{pendingSubmissions?.length || 0}</p>
         </Card>
-        <Card className="bg-gradient-to-br from-rose-500 to-rose-600 text-white border-0">
+        <Card className="bg-linear-to-br from-rose-500 to-rose-600 text-white border-0">
           <p className="text-rose-100 text-sm">Unread Messages</p>
           <p className="text-3xl font-bold mt-1">{unreadMessages || 0}</p>
         </Card>
@@ -267,19 +267,19 @@ async function AdminDashboard({ supabase, userName }: { supabase: Awaited<Return
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="bg-gradient-to-br from-primary-500 to-primary-700 text-white border-0">
+        <Card className="bg-linear-to-br from-primary-500 to-primary-700 text-white border-0">
           <p className="text-primary-200 text-sm">Students</p>
           <p className="text-3xl font-bold mt-1">{totalStudents || 0}</p>
         </Card>
-        <Card className="bg-gradient-to-br from-emerald-500 to-emerald-600 text-white border-0">
+        <Card className="bg-linear-to-br from-emerald-500 to-emerald-600 text-white border-0">
           <p className="text-emerald-100 text-sm">Professors</p>
           <p className="text-3xl font-bold mt-1">{totalProfessors || 0}</p>
         </Card>
-        <Card className="bg-gradient-to-br from-amber-500 to-amber-600 text-white border-0">
+        <Card className="bg-linear-to-br from-amber-500 to-amber-600 text-white border-0">
           <p className="text-amber-100 text-sm">Courses</p>
           <p className="text-3xl font-bold mt-1">{totalCourses || 0}</p>
         </Card>
-        <Card className="bg-gradient-to-br from-rose-500 to-rose-600 text-white border-0">
+        <Card className="bg-linear-to-br from-rose-500 to-rose-600 text-white border-0">
           <p className="text-rose-100 text-sm">Classrooms</p>
           <p className="text-3xl font-bold mt-1">{totalClassrooms || 0}</p>
         </Card>
