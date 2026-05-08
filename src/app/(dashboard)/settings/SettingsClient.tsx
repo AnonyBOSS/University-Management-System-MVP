@@ -64,7 +64,7 @@ export function SettingsClient({ user }: { user: Profile }) {
 
           <Input id="full_name" name="full_name" label="Full Name" defaultValue={user.full_name} required />
 
-          {user.role === "admin" && (
+          {user.role === "admin" ? (
             <Select
               id="role"
               name="role"
@@ -76,6 +76,17 @@ export function SettingsClient({ user }: { user: Profile }) {
                 { value: "admin", label: "Admin" },
               ]}
             />
+          ) : (
+            <div>
+              <label className="block text-sm font-medium text-surface-700 dark:text-surface-300 mb-1.5">Role</label>
+              <input
+                type="text"
+                value={user.role}
+                disabled
+                className="w-full rounded-xl border border-surface-200 dark:border-surface-700 bg-surface-100 dark:bg-surface-800 px-4 py-2.5 text-sm text-surface-500 capitalize cursor-not-allowed"
+              />
+              <p className="text-xs text-surface-400 mt-1">Contact an admin to change your role.</p>
+            </div>
           )}
 
           <div>
@@ -87,17 +98,6 @@ export function SettingsClient({ user }: { user: Profile }) {
               className="w-full rounded-xl border border-surface-200 dark:border-surface-700 bg-surface-100 dark:bg-surface-800 px-4 py-2.5 text-sm text-surface-500 cursor-not-allowed"
             />
             <p className="text-xs text-surface-400 mt-1">Email cannot be changed.</p>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-surface-700 dark:text-surface-300 mb-1.5">Role</label>
-            <input
-              type="text"
-              value={user.role}
-              disabled
-              className="w-full rounded-xl border border-surface-200 dark:border-surface-700 bg-surface-100 dark:bg-surface-800 px-4 py-2.5 text-sm text-surface-500 capitalize cursor-not-allowed"
-            />
-            <p className="text-xs text-surface-400 mt-1">Contact an admin to change your role.</p>
           </div>
 
           <Button type="submit" isLoading={isLoading}>Save Changes</Button>
