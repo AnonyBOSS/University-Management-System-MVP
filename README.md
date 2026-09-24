@@ -1,6 +1,8 @@
 # UniManage — University Management System MVP
 
-A production-ready MVP for university management built with **Next.js 16**, **Supabase**, **TypeScript**, and **Tailwind CSS v4**.
+An MVP for university management built with **Next.js 16**, **Supabase**, **TypeScript**, and **Tailwind CSS v4**.
+
+**Live demo:** [university-management-system-mvp.vercel.app](https://university-management-system-mvp.vercel.app/)
 
 ## Features
 
@@ -44,12 +46,15 @@ npm install
 cp .env.local.example .env.local
 ```
 
-Edit `.env.local` and fill in your Supabase credentials:
+Edit `.env.local` and fill in your Supabase credentials (Settings → API):
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ```
+
+`SUPABASE_SERVICE_ROLE_KEY` is server-only and is needed only for the admin "change user role" action. Never expose it to the browser.
 
 ### 4. Run the Database Schema
 
